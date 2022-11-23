@@ -55,7 +55,7 @@ class App:
         )
         grid_size_dropdown = pygame_gui.elements.UIDropDownMenu(
             options_list=self.grid_sizes,
-            starting_option="50x50",
+            starting_option=self.grid_sizes[0],
             relative_rect=pygame.Rect(110, 0, 100, 50),
             manager=self.gui_manager,
         )
