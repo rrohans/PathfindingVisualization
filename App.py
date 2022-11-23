@@ -17,11 +17,12 @@ class App:
 
         self.is_running = True
         self.algorithm = "Dijkstra"
-        self.grid_size = "100x100"
+        self.grid_sizes = ["50x50", "100x100", "150x150", "200x200"]
+        self.selected_grid_size = self.grid_sizes[0]
 
         self.cells = [
-            [Block(x, y) for x in range(int(self.grid_size.split("x")[0]))]
-            for y in range(int(self.grid_size.split("x")[1]))
+            [Block(x, y) for x in range(int(self.selected_grid_size.split("x")[0]))]
+            for y in range(int(self.selected_grid_size.split("x")[1]))
         ]
 
         # create window and gui manager and set window title
@@ -53,7 +54,7 @@ class App:
             manager=self.gui_manager,
         )
         grid_size_dropdown = pygame_gui.elements.UIDropDownMenu(
-            options_list=["50x50", "100x100", "150x150", "200x200"],
+            options_list=self.grid_sizes,
             starting_option="50x50",
             relative_rect=pygame.Rect(110, 0, 100, 50),
             manager=self.gui_manager,
@@ -81,7 +82,7 @@ class App:
 
                     if event.ui_element == grid_size_dropdown:
                         print("Grid Size: " + event.text)
-                        self.grid_size = event.text
+                        self.selected_grid_size = event.text
                         self.update_cells(event.text)
 
                 self.gui_manager.process_events(event)
