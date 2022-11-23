@@ -1,5 +1,3 @@
-import pygame
-
 from App import App
 
 
