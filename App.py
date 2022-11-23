@@ -17,7 +17,7 @@ class App:
 
         self.is_running = True
         self.algorithm = "Dijkstra"
-        self.grid_sizes = ["50x50", "100x100", "150x150", "200x200"]
+        self.grid_sizes = ["10x10", "20x20", "30x30", "40x40"]
         self.selected_grid_size = self.grid_sizes[0]
 
         self.cells = [
