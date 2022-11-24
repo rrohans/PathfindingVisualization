@@ -9,6 +9,7 @@ class Block:
     PURPLE = (128, 0, 128)
     ORANGE = (255, 165, 0)
     GREEN = (0, 255, 0)
+    YELLOW = (255, 255, 0)
 
     def __init__(self, x: int, y: int) -> None:
         self.x = x
@@ -17,6 +18,8 @@ class Block:
         self.is_wall = False
         self.is_start = False
         self.is_end = False
+        self.is_checked = False
+        self.is_path = False
 
     # draw the block (block responsible for drawing itself)
     def draw(self, cells, window: pygame.Surface) -> None:
@@ -36,6 +39,10 @@ class Block:
                 return Block.GREEN
             elif self.is_end:
                 return Block.ORANGE
+            elif self.is_checked:
+                return Block.YELLOW
+            elif self.is_path:
+                return Block.PURPLE
             else:
                 return Block.WHITE
 
