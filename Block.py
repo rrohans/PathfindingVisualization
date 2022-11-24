@@ -28,16 +28,27 @@ class Block:
             height = (window.get_height() - 50) / len(cells)
             return width, height
 
+        def select_color() -> tuple:
+            # select the color of the block
+            if self.is_wall:
+                return Block.BLACK
+            elif self.is_start:
+                return Block.GREEN
+            elif self.is_end:
+                return Block.ORANGE
+            else:
+                return Block.WHITE
+
         # calculate the dimensions of the block
         width, height = calculate_dimensions()
 
         # draw the block such that there is a 1px gap between them
         pygame.draw.rect(
             window,
-            self.color,
+            select_color(),
             (
                 self.x * width + 1,
-                self.y * height + 1 + 50, # +50 to account for UI
+                self.y * height + 1 + 50,  # +50 to account for UI
                 width - 1,
                 height - 1,
             ),
