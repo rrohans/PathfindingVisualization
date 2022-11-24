@@ -17,8 +17,6 @@ class App:
         self.W_WIDTH = w
         self.W_HEIGHT = h
 
-        print("Window Size: " + str(self.W_WIDTH) + "x" + str(self.W_HEIGHT))
-
         self.is_running = True
         self.algorithm = "Dijkstra"
         self.grid_sizes = ["10x10", "20x20", "30x30", "40x40"]
@@ -46,6 +44,18 @@ class App:
             for y in range(int(new_size.split("x")[1]))
         ]
 
+    def clear_board(self) -> None:
+        for row in self.cells:
+            for block in row:
+                block.is_wall = False
+                block.is_start = False
+                block.is_end = False
+                block.is_checked = False
+                block.is_path = False
+
+        self.start_block = (None, None)
+        self.end_block = (None, None)
+
     def run(self) -> None:
 
         # define UI elements
@@ -67,6 +77,11 @@ class App:
             relative_rect=pygame.Rect(110, 0, 100, 50),
             manager=self.gui_manager,
         )
+        clear_button = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect(self.W_WIDTH - 160, 0, 80, 50),
+            text="Clear",
+            manager=self.gui_manager,
+        )
 
         # create clock and set fps
         clock = pygame.time.Clock()
@@ -85,6 +100,9 @@ class App:
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == start:
                         print("Start Pathfinding with " + self.algorithm)
+
+                    if event.ui_element == clear_button:
+                        self.clear_board()
 
                 if event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                     if event.ui_element == algorithm_dropdown:
@@ -125,12 +143,7 @@ class App:
                 # handle keyboard input
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
-                        self.cells = [
-                            [Block(x, y) for x in range(len(self.cells[0]))]
-                            for y in range(len(self.cells))
-                        ]
-                        self.start_block = (None, None)
-                        self.end_block = (None, None)
+                        self.clear_board()
 
             # update gui and draw window
             self.gui_manager.update(time_delta)
