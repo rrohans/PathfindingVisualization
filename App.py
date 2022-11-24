@@ -99,7 +99,11 @@ class App:
 
                 # handle UI events
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == start and self.start_block and self.end_block:
+                    if (
+                        event.ui_element == start
+                        and self.start_block
+                        and self.end_block
+                    ):
                         # print("Start Pathfinding with " + self.algorithm)
                         print(len(bfs(self.cells, self.start_block, self.end_block)))
 
@@ -120,7 +124,6 @@ class App:
                         self.update_cells(event.text)
                         self.start_block = None
                         self.end_block = None
-                    
 
                 # handle clicking cells
                 if event.type == pygame.MOUSEBUTTONDOWN:
