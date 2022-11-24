@@ -5,13 +5,17 @@ from Block import Block
 
 
 class App:
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        w: int = 800,
+        h: int = 800,
+    ) -> None:
         # initialize pygame
         pygame.init()
 
         # set window size and is_running and algorithm
-        self.W_WIDTH = pygame.display.Info().current_w
-        self.W_HEIGHT = pygame.display.Info().current_h
+        self.W_WIDTH = w
+        self.W_HEIGHT = h
 
         print("Window Size: " + str(self.W_WIDTH) + "x" + str(self.W_HEIGHT))
 
