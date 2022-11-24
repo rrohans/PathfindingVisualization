@@ -2,6 +2,7 @@ import pygame
 import pygame_gui
 
 from Block import Block
+from Algorithms import bfs
 
 
 class App:
@@ -28,8 +29,8 @@ class App:
         ]
 
         # start and end blocks
-        self.start_block = (None, None)
-        self.end_block = (None, None)
+        self.start_block: tuple = None
+        self.end_block: tuple = None
 
         # create window and gui manager and set window title
         pygame.display.set_caption("Pathfinding Visualizer")
@@ -53,8 +54,8 @@ class App:
                 block.is_checked = False
                 block.is_path = False
 
-        self.start_block = (None, None)
-        self.end_block = (None, None)
+        self.start_block = None
+        self.end_block = None
 
     def run(self) -> None:
 
@@ -92,14 +93,15 @@ class App:
 
             for event in pygame.event.get():
                 self.gui_manager.process_events(event)
-                
+
                 if event.type == pygame.QUIT:
                     self.is_running = False
 
                 # handle UI events
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == start:
-                        print("Start Pathfinding with " + self.algorithm)
+                    if event.ui_element == start and self.start_block and self.end_block:
+                        # print("Start Pathfinding with " + self.algorithm)
+                        print(len(bfs(self.cells, self.start_block, self.end_block)))
 
                     if event.ui_element == clear_button:
                         self.clear_board()
@@ -109,15 +111,16 @@ class App:
                         print("Algorithm: " + event.text)
                         self.algorithm = event.text
                         self.update_cells(self.selected_grid_size)
-                        self.start_block = (None, None)
-                        self.end_block = (None, None)
+                        self.start_block = None
+                        self.end_block = None
 
                     if event.ui_element == grid_size_dropdown:
                         print("Grid Size: " + event.text)
                         self.selected_grid_size = event.text
                         self.update_cells(event.text)
-                        self.start_block = (None, None)
-                        self.end_block = (None, None)
+                        self.start_block = None
+                        self.end_block = None
+                    
 
                 # handle clicking cells
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -129,16 +132,16 @@ class App:
                         height = (self.window.get_height() - 50) / len(self.cells)
                         x = int(x / width)
                         y = int((y - 50) / height)
-                        if self.start_block[0] is None:
+                        if self.start_block is None:
                             self.start_block = (x, y)
                             self.cells[y][x].is_start = True
-                        elif self.end_block[0] is None and (x, y) != self.start_block:
+                        elif self.end_block is None and (x, y) != self.start_block:
                             self.end_block = (x, y)
                             self.cells[y][x].is_end = True
                         elif (x, y) != self.start_block and (x, y) != self.end_block:
                             self.cells[y][x].is_wall = True
                         else:
-                            pass # do nothing
+                            pass  # do nothing
 
                 # handle keyboard input
                 if event.type == pygame.KEYDOWN:
