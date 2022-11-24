@@ -1,10 +1,7 @@
 from Block import Block
 
-# bfs algorithm that finds shortest path from start to end
-# and paints the path purple if it exists and yellow if checked
-# return the cells as a list that are in the path
-def bfs(cells: list[list[Block]], start: tuple, end: tuple) -> int:
-    def get_neighbors() -> list[Block]:
+# get the neighbors of a block
+def get_neighbors(block: Block, cells: list[list[Block]]) -> list[Block]:
         # get the neighbors of the block
         neighbors = []
 
@@ -34,6 +31,11 @@ def bfs(cells: list[list[Block]], start: tuple, end: tuple) -> int:
 
         return neighbors
 
+# bfs algorithm that finds shortest path from start to end
+# and paints the path purple if it exists and yellow if checked
+# return the cells as a list that are in the path
+def bfs(cells: list[list[Block]], start: tuple, end: tuple) -> list[tuple]:
+    
     # check if start and end are valid
     if start is None or end is None:
         return None
@@ -75,7 +77,7 @@ def bfs(cells: list[list[Block]], start: tuple, end: tuple) -> int:
             return path
 
         # get the neighbors of the block
-        neighbors = get_neighbors()
+        neighbors = get_neighbors(block, cells)
 
         # for each neighbor
         for neighbor in neighbors:
@@ -92,3 +94,22 @@ def bfs(cells: list[list[Block]], start: tuple, end: tuple) -> int:
 
     # return None if no path exists
     return None
+
+# a* algorithm that finds shortest path from start to end
+# and paints the path purple if it exists and yellow if checked
+# return the cells as a list that are in the path
+def a_star(cells: list[list[Block]], start: tuple, end: tuple) -> list[tuple]:
+    pass
+
+
+# dfs algorithm that finds shortest path from start to end
+# and paints the path purple if it exists and yellow if checked
+# return the cells as a list that are in the path
+def dfs(cells: list[list[Block]], start: tuple, end: tuple) -> list[tuple]:
+    pass
+
+# dijkstra algorithm that finds shortest path from start to end
+# and paints the path purple if it exists and yellow if checked
+# return the cells as a list that are in the path
+def dijkstra(cells: list[list[Block]], start: tuple, end: tuple) -> list[tuple]:
+    pass
