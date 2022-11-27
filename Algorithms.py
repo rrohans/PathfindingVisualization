@@ -227,6 +227,8 @@ def dfs(cells: list[list[Block]], start: tuple, end: tuple, draw=None) -> list[t
             draw()
         # get the first block in the stack
         block = stack.pop()
+        # set block as checked
+        block.is_checked = True
 
         # if the block is the end block
         if block == end_block:
@@ -257,8 +259,6 @@ def dfs(cells: list[list[Block]], start: tuple, end: tuple, draw=None) -> list[t
         for neighbor in neighbors:
             # if the neighbor is not a wall and not checked
             if not neighbor.is_wall and not neighbor.is_checked:
-                # set the neighbor as checked
-                neighbor.is_checked = True
 
                 # set the parent of the neighbor to the block
                 neighbor.parent = block
