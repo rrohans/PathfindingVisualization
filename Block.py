@@ -26,6 +26,8 @@ class Block:
         self.h = 0
         self.f = float("inf")
 
+        # dijkstra algorithm variables
+        self.distance = float("inf")
 
     # draw the block (block responsible for drawing itself)
     def draw(self, cells, window: pygame.Surface) -> None:
