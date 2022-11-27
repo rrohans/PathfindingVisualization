@@ -21,6 +21,12 @@ class Block:
         self.is_checked = False
         self.is_path = False
 
+        # a* algorithm variables
+        self.g = float("inf")
+        self.h = 0
+        self.f = float("inf")
+
+
     # draw the block (block responsible for drawing itself)
     def draw(self, cells, window: pygame.Surface) -> None:
         def calculate_dimensions() -> tuple:
