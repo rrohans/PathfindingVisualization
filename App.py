@@ -1,3 +1,6 @@
+from os import environ # hide pygame hello message
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
 import pygame
 import pygame_gui
 
