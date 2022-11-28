@@ -85,8 +85,8 @@ class Cli:
         self.maze = self.read_maze()
         self.run_dfs()
         self.run_bfs()
-        self.run_dijkstra()
         self.run_a_star()
+        self.run_dijkstra()
 
         print(f"{self.filename} Results:")
         print(
