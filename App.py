@@ -8,10 +8,10 @@ from Algorithms import bfs, dfs, dijkstra, a_star
 class App:
 
     ALGO_DESC = {
-        "BFS": "Shortest path guaranteed on unweighted graphs",
-        "DFS": "Shortest path not guaranteed on unweighted graphs",
-        "Dijkstra": "Shortest path guaranteed on weighted graphs",
-        "A*": "Shortest path guaranteed on weighted graphs",
+        "BFS": "Yes",
+        "DFS": "No",
+        "Dijkstra": "Yes",
+        "A*": "Yes",
     }
 
     ALGOS = {
@@ -33,8 +33,11 @@ class App:
         self.W_WIDTH = w
         self.W_HEIGHT = h
 
+        self.distance = None
+        self.distance_calculated = False
+
         self.is_running = True
-        self.algorithm = "Dijkstra"
+        self.algorithm = "A*"
         self.grid_sizes = ["10x10", "20x20", "30x30", "40x40", "50x50"]
         self.selected_grid_size = self.grid_sizes[2]
 
@@ -54,7 +57,14 @@ class App:
             (self.W_WIDTH, self.W_HEIGHT), "theme.json"
         )
 
+        self.shortest_distance_path_label = pygame_gui.elements.UILabel(
+            relative_rect=pygame.Rect(180, 10, 170, 50),
+            text="",
+            manager=self.gui_manager,
+        )
+
     def update_cells(self, new_size: str) -> None:
+        self.shortest_distance_path_label.set_text("")
         self.cells = [
             [Block(x, y) for x in range(int(new_size.split("x")[0]))]
             for y in range(int(new_size.split("x")[1]))
@@ -71,9 +81,13 @@ class App:
 
         self.start_block = None
         self.end_block = None
+        self.distance_calculated = False
+        self.shortest_distance_path_label.set_text("")
 
     def restart(self) -> None:
         # clear all paths and checked blocks and dijkstra variables and a* variables
+        self.shortest_distance_path_label.set_text("")
+        self.distance_calculated = False
         for row in self.cells:
             for block in row:
                 block.is_checked = False
@@ -83,11 +97,16 @@ class App:
                 block.f = float("inf")
                 block.distance = float("inf")
 
+        self.distance_calculated = False
+
     def start(self) -> None:
+        self.restart()
         print("Start Pathfinding with " + self.algorithm)
-        self.ALGOS[self.algorithm](
+        dist = self.ALGOS[self.algorithm](
             self.cells, self.start_block, self.end_block, self.draw
         )
+        self.distance = len(dist) if dist else None
+        self.distance_calculated = True
 
     def save(self) -> None:
         with open(f"{self.selected_grid_size}.maze", "w") as f:
@@ -124,8 +143,8 @@ class App:
             object_id="#start_button",
         )
         algorithm_dropdown = pygame_gui.elements.UIDropDownMenu(
-            options_list=["Dijkstra", "A*", "BFS", "DFS"],
-            starting_option="Dijkstra",
+            options_list=["A*", "Dijkstra", "BFS", "DFS"],
+            starting_option=self.algorithm,
             relative_rect=pygame.Rect(0, 0, 100, 50),
             manager=self.gui_manager,
         )
@@ -155,6 +174,11 @@ class App:
             text="Restart",
             manager=self.gui_manager,
         )
+        shortest_path_label = pygame_gui.elements.UILabel(
+            relative_rect=pygame.Rect(210, -10, 150, 50),
+            text=f"Shortest Path: {App.ALGO_DESC[self.algorithm]}",
+            manager=self.gui_manager,
+        )
 
         # create clock and set fps
         clock = pygame.time.Clock()
@@ -177,6 +201,10 @@ class App:
                         and self.end_block
                     ):
                         self.start()
+                        if self.distance_calculated:
+                            self.shortest_distance_path_label.set_text(
+                                f"Distance: {self.distance}"
+                            )
 
                     if event.ui_element == clear_button:
                         self.clear_board()
@@ -202,6 +230,7 @@ class App:
 
                     if event.ui_element == restart_button:
                         self.restart()
+                        self.distance_calculated = False
 
                 if event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                     if event.ui_element == algorithm_dropdown:
@@ -210,6 +239,9 @@ class App:
                         self.update_cells(self.selected_grid_size)
                         self.start_block = None
                         self.end_block = None
+                        shortest_path_label.set_text(
+                            f"Shortest Path: {App.ALGO_DESC[self.algorithm]}"
+                        )
 
                     if event.ui_element == grid_size_dropdown:
                         print("Grid Size: " + event.text)
@@ -265,6 +297,13 @@ class App:
 
                     if event.key == pygame.K_RETURN:
                         self.start()
+                        if self.distance_calculated:
+                            self.shortest_distance_path_label.set_text(
+                                f"Distance: {self.distance}"
+                            )
+
+                    if event.key == pygame.K_q:
+                        self.is_running = False
 
             # update gui and draw window
             self.gui_manager.update(time_delta)
