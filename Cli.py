@@ -26,21 +26,25 @@ class Cli:
         self.a_star_distance = 0
 
     def run_bfs(self) -> None:
+        print("Running BFS...")
         start_time = time.time()
         self.bfs_distance = bfs(self.maze, self.start_node, self.end_node)
         self.bfs_time = (time.time() - start_time) 
 
     def run_dfs(self) -> None:
+        print("Running DFS...")
         start_time = time.time()
         self.dfs_distance = dfs(self.maze, self.start_node, self.end_node)
         self.dfs_time = (time.time() - start_time)
 
     def run_dijkstra(self) -> None:
+        print("Running Dijkstra...")
         start_time = time.time()
         self.dijkstra_distance = dijkstra(self.maze, self.start_node, self.end_node)
         self.dijkstra_time = (time.time() - start_time)
 
     def run_a_star(self) -> None:
+        print("Running A*...")
         start_time = time.time()
         self.a_star_distance = a_star(self.maze, self.start_node, self.end_node)
         self.a_star_time = (time.time() - start_time)
