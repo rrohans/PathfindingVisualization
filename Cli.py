@@ -162,5 +162,6 @@ class Cli:
                         f.write("e")
                     else:
                         f.write(".")
+                f.write("\n")
 
 
