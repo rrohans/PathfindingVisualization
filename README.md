@@ -18,7 +18,7 @@ Visualize path finding algorithms in action. Written in Python using Pygame.
 ## Usage
 
 - Run `python3 main.py -mode gui` to run the GUI
-- Run `python3 main.py -mode cli` to run the CLI
+- Run `python3 main.py -mode cli filename` to run the CLI with a given maze file
 - Run `python3 main.py -random [n]` to generate a random maze of size n x n with random start and end points and walls
 
 ## Screenshots
