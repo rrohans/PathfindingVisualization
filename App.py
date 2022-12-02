@@ -125,6 +125,26 @@ class App:
                         f.write(".")
                 f.write("\n")
 
+    def load(self) -> None:
+        self.update_cells(
+                            self.selected_grid_size
+                        )  # TODO: Make it so that the size will be determined by the maze file
+        try: 
+            with open(f"{self.selected_grid_size}.maze", "r") as f:
+                for y, line in enumerate(f):
+                    for x, char in enumerate(line):
+                        if char == "w":
+                            self.cells[y][x].is_wall = True
+                        elif char == "s":
+                            self.cells[y][x].is_start = True
+                            self.start_block = (x, y)
+                        elif char == "e":
+                            self.cells[y][x].is_end = True
+                            self.end_block = (x, y)
+        except FileNotFoundError:
+            print("No maze file found for this grid size")
+
+
     def draw(self) -> None:
         self.window.fill((0, 0, 0))
         # draw cells
@@ -216,20 +236,7 @@ class App:
                         self.save()
 
                     if event.ui_element == load_button:
-                        self.update_cells(
-                            self.selected_grid_size
-                        )  # TODO: Make it so that the size will be determined by the maze file
-                        with open(f"{self.selected_grid_size}.maze", "r") as f:
-                            for y, line in enumerate(f):
-                                for x, char in enumerate(line):
-                                    if char == "w":
-                                        self.cells[y][x].is_wall = True
-                                    elif char == "s":
-                                        self.cells[y][x].is_start = True
-                                        self.start_block = (x, y)
-                                    elif char == "e":
-                                        self.cells[y][x].is_end = True
-                                        self.end_block = (x, y)
+                        self.load()
 
                     if event.ui_element == restart_button:
                         self.restart()
@@ -307,6 +314,9 @@ class App:
 
                     if event.key == pygame.K_q:
                         self.is_running = False
+
+                    if event.key == pygame.K_l:
+                        self.load()
 
             # update gui and draw window
             self.gui_manager.update(time_delta)
