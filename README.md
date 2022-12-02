@@ -21,12 +21,7 @@ Visualize path finding algorithms in action. Written in Python using Pygame.
 - Run `python3 main.py -mode cli filename` to run the CLI with a given maze file
 - Run `python3 main.py -random [n]` to generate a random maze of size n x n with random start and end points and walls
 
-## Screenshots
-
-![Example 30x30 Maze](Images/30x30-test.png)
-![CLI Example Image](Images/cli_example.png)
-
-## GUI Controls
+### GUI Controls
 
 - Left click to add start point and end point
 - Left click and drag to add or remove walls 
@@ -36,5 +31,11 @@ Visualize path finding algorithms in action. Written in Python using Pygame.
 - Press `r` to reset the algorithm
 - Press `c` to clear the maze
 - Press `q` to quit
+
+## Screenshots
+
+![Example 30x30 Maze](Images/30x30-test.png)
+![CLI Example Image](Images/cli_example.png)
+
 
 
