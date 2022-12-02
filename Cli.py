@@ -102,23 +102,24 @@ class Cli:
             f"A*: {len(self.a_star_distance) if self.a_star_distance else None} in {self.a_star_time}ms"
         )
 
-        # plot the results
+        # plot the results in a bar graph and write the time on the middle of the bar
         plt.bar(
             ["BFS", "DFS", "Dijkstra", "A*"],
             [
-                self.bfs_time * len(self.bfs_distance) if self.bfs_distance else 1000,
-                self.dfs_time * len(self.dfs_distance) if self.dfs_distance else 1000,
-                self.dijkstra_time * len(self.dijkstra_distance) if self.dijkstra_distance else 1000,
-                self.a_star_time * len(self.a_star_distance) if self.a_star_distance else 1000,
+                self.bfs_time,
+                self.dfs_time,
+                self.dijkstra_time,
+                self.a_star_time,
             ],
         )
-        plt.title(f"{self.filename} Time Results")
-        plt.xlabel("Algorithm")
+ 
+        for c in plt.gca().containers:
+            plt.gca().bar_label(c, fmt="%.3f", color="black", fontweight="bold")
 
-        if self.bfs_distance != 0:
-            plt.ylabel("Time (s) x Path Length")
-        else:
-            plt.ylabel("Time (ms)")
+        plt.title(f"{self.filename} Results")
+        plt.xlabel("Algorithm")
+        plt.ylabel("Time (ms)")
+
 
         plt.show()
 
