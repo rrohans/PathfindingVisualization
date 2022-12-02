@@ -24,6 +24,7 @@ Visualize path finding algorithms in action. Written in Python using Pygame.
 ## Screenshots
 
 ![Example 30x30 Maze](Images/30x30-test.png)
+![CLI Example Image](Images/cli_example.png)
 
 ## GUI Controls
 
