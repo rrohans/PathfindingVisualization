@@ -29,6 +29,9 @@ class Block:
         # dijkstra algorithm variables
         self.distance = float("inf")
 
+    def __lt__(self, other) -> bool:
+        return self.distance < other.distance
+
     # draw the block (block responsible for drawing itself)
     def draw(self, cells, window: pygame.Surface) -> None:
         def calculate_dimensions() -> tuple:
