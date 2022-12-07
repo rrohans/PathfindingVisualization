@@ -1,4 +1,5 @@
 import time
+from heapq import heappush, heappop
 
 from Block import Block
 
@@ -287,25 +288,20 @@ def dijkstra(
 
     # set the parent of the start block to itself
     start_block.parent = start_block
-
-    # set of unvisited blocks with all blocks
-    unvisited = set()
-    for row in cells:
-        for block in row:
-            unvisited.add(block)
-
     # set the distance of the start block to 0
     start_block.distance = 0
+
+    # set of unvisited blocks with all blocks
+    unvisited = []
+
+    heappush(unvisited, start_block)
 
     # while the unvisited set is not empty
     while len(unvisited) > 0:
         if draw:
             draw()
         # get the block with the smallest distance
-        current_block = None
-        for block in unvisited:
-            if current_block is None or block.distance < current_block.distance:
-                current_block = block
+        current_block = heappop(unvisited)
 
         current_block.is_checked = True
 
@@ -331,9 +327,6 @@ def dijkstra(
             path.reverse()
             return path
 
-        # remove the current block from the unvisited set
-        unvisited.remove(current_block)
-
         # get the neighbors of the current block
         neighbors = get_neighbors(current_block, cells)
 
@@ -351,6 +344,9 @@ def dijkstra(
 
                     # set the parent of the neighbor to the current block
                     neighbor.parent = current_block
+
+                    # add the neighbor to the unvisited set
+                    heappush(unvisited, neighbor)
 
     # return None if no path exists
     return None
