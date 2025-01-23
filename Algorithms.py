@@ -10,7 +10,7 @@ def get_neighbors(block: Block, cells: list[list[Block]]) -> list[Block]:
 
     # get the coordinates of the block
     x = block.x
-    y = block.y
+    y = block.x
 
     # get the left neighbor
     if x > 0:
