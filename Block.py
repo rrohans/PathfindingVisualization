@@ -1,6 +1,5 @@
 import pygame
 
-
 class Block:
 
     # define colors for the blocks
